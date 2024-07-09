@@ -20,27 +20,37 @@ const App = () => {
     },
   ];
 
+  const handleSearch = (event) => {
+    console.log(event.target.value);
+  };
+
   return (
     <div>
       <h1>My Hacker Stories</h1>
-      <Search />
+      <Search onSearch={handleSearch} />
       <hr />
       <List list={stories} />
     </div>
   );
 };
 
-const Search = () => {
+const Search = (props) => {
+  const [searchTerm, setSearchTerm] = React.useState('');
   const handleChange = (event) => {
+    setSearchTerm(event.target.value);
+    props.onSearch(event);
     // synthetic event
-    console.log(event);
+    // console.log(event);
     // value of target
-    console.log(event.target.value);
+    // console.log(event.target.value);
   };
   return (
     <div>
       <label htmlFor='search'>Search: </label>
       <input id='search' type='text' onChange={handleChange} />
+      <p>
+        Searching for : <strong>{searchTerm}</strong>
+      </p>
     </div>
   );
 };
@@ -59,7 +69,7 @@ const Item = (props) => (
       <a href={props.item.url}>{props.item.title}, </a>
     </span>
     <span>{props.item.author}, </span>
-    <span>Cooments: {props.item.num_comments}, </span>
+    <span>Comments: {props.item.num_comments}, </span>
     <span>Points: {props.item.points}</span>
   </li>
 );
